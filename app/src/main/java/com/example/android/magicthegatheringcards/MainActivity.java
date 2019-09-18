@@ -2,6 +2,8 @@ package com.example.android.magicthegatheringcards;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.JsonReader;
 import java.util.ArrayList;
 
@@ -11,13 +13,19 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 import android.os.AsyncTask;
+import android.widget.TextView;
 
-public class MainActivity extends AsyncTask<Void, Void, String[]>{
+public class MainActivity extends AsyncTask<Void, Void, Void>{
     ArrayList<String> value;
     String key;
 
     @Override
-    protected String[] doInBackground(Void... arg0) {
+    protected void onPreExecute(){
+        TextView result;
+    }
+
+    @Override
+    protected Void doInBackground(Void... arg0) {
         try {
             URL source = new URL("https://api.magicthegathering.io/v1/cards");
             HttpsURLConnection connection = (HttpsURLConnection) source.openConnection();
