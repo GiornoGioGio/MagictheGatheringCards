@@ -15,7 +15,7 @@ public class GetCards extends AsyncTask<Void, Void, Void>{
     ArrayList<String> value;
     String key;
     TextView result;
-    String network;
+    String network = "";
 
     protected GetCards(String keyC, ArrayList<String> valueC, TextView resultC){
         key = keyC;
@@ -23,6 +23,10 @@ public class GetCards extends AsyncTask<Void, Void, Void>{
         result = resultC;
     }
 
+    @Override
+    protected void onProgressUpdate(Void... arg0){
+        result.setText(network);
+    }
     @Override
     protected Void doInBackground(Void... arg0) {
         try {
@@ -35,7 +39,7 @@ public class GetCards extends AsyncTask<Void, Void, Void>{
             jsonReader.beginObject();
             while (jsonReader.hasNext()) {
                 key = jsonReader.nextName();
-                if (key.equals("organization_url")) {
+                if (key.equals("Sorcery")) {
                     network =
                             result.getText().toString() + value.add(jsonReader.nextString()) + "\n";
                     break;
@@ -48,14 +52,4 @@ public class GetCards extends AsyncTask<Void, Void, Void>{
         }
         return null;
     }
-
-    @Override
-    protected void onPostExecute(){
-        super.onPostExecute(aVoid);
-        if(isCancelled()){
-            return;
-        }
-        result.setText(network);
-    }
-
 }
