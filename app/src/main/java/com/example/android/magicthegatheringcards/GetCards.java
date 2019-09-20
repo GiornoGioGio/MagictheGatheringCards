@@ -39,10 +39,16 @@ public class GetCards extends AsyncTask<Void, String, Void>{
                 while (jsonReader.hasNext()) {
                     key = jsonReader.nextName();
                     if (key.equals("name")) {
+                        network += jsonReader.nextString() + "      ";
+                    } else if (key.equals("manaCost")){
                         network += jsonReader.nextString() + "\n";
-                        publishProgress(network);
+                    } else if (key.equals("type")){
+                        network += jsonReader.nextString() + "\n";
+                    } else if (key.equals("text")){
+                        network += jsonReader.nextString() + "\n" + "\n";
                     } else {
                         jsonReader.skipValue();
+                        publishProgress(network);
                     }
                 }
                 jsonReader.endObject();
