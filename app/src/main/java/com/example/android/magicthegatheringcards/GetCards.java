@@ -2,13 +2,13 @@ package com.example.android.magicthegatheringcards;
 
 import android.util.JsonReader;
 import java.util.ArrayList;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.TextView;
 
 public class GetCards extends AsyncTask<Void, String, Void>{
@@ -22,7 +22,6 @@ public class GetCards extends AsyncTask<Void, String, Void>{
         value = valueC;
         result = resultC;
     }
-
     @Override
     protected Void doInBackground(Void... arg0) {
         try {
@@ -32,24 +31,24 @@ public class GetCards extends AsyncTask<Void, String, Void>{
             InputStreamReader responseBodyReader =
                     new InputStreamReader(responseBody, "UTF-8");
             JsonReader jsonReader = new JsonReader(responseBodyReader);
+            jsonReader.beginObject();
+            jsonReader.nextName();
             jsonReader.beginArray();
             while (jsonReader.hasNext()) {
                 jsonReader.beginObject();
                 while (jsonReader.hasNext()) {
                     key = jsonReader.nextName();
                     if (key.equals("name")) {
-                        network = jsonReader.nextString();
+                        network += jsonReader.nextString() + "\n";
                         publishProgress(network);
-                        break;
                     } else {
                         jsonReader.skipValue();
                     }
                 }
                 jsonReader.endObject();
             }
-            jsonReader.endArray();
         } catch (Exception e) {
-            return null;
+            e.printStackTrace();
         }
 
         return null;
@@ -63,6 +62,6 @@ public class GetCards extends AsyncTask<Void, String, Void>{
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-
+        result.setText(network);
     }
 }
