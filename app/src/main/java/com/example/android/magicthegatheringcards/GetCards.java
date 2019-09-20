@@ -37,20 +37,25 @@ public class GetCards extends AsyncTask<Void, Void, Void>{
             InputStreamReader responseBodyReader =
                     new InputStreamReader(responseBody, "UTF-8");
             JsonReader jsonReader = new JsonReader(responseBodyReader);
-            jsonReader.beginObject();
+            jsonReader.beginArray();
             while (jsonReader.hasNext()) {
-                key = jsonReader.nextName();
-                if (key.equals("Sorcery")) {
-                    network =
-                            result.getText().toString() + value.add(jsonReader.nextString()) + "\n";
-                    break;
-                } else {
-                    jsonReader.skipValue();
+                jsonReader.beginObject();
+                while (jsonReader.hasNext()) {
+                    key = jsonReader.nextName();
+                    if (key.equals("name")) {
+                        network = value.add(jsonReader.nextString()) + "\n";
+                        break;
+                    } else {
+                        jsonReader.skipValue();
+                    }
                 }
+                jsonReader.endObject();
             }
+            jsonReader.endArray();
         } catch (Exception e) {
             return null;
         }
+
         return null;
     }
 
