@@ -27,6 +27,7 @@ public class GetCards extends AsyncTask<Void, Void, Void>{
     protected void onProgressUpdate(Void... arg0){
         result.setText(network);
     }
+
     @Override
     protected Void doInBackground(Void... arg0) {
         try {
@@ -51,5 +52,11 @@ public class GetCards extends AsyncTask<Void, Void, Void>{
             return null;
         }
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        result.setText(network);
     }
 }
