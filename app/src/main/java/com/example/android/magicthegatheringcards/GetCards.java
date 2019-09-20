@@ -11,7 +11,7 @@ import javax.net.ssl.HttpsURLConnection;
 import android.os.AsyncTask;
 import android.widget.TextView;
 
-public class GetCards extends AsyncTask<Void, Void, Void>{
+public class GetCards extends AsyncTask<Void, String, Void>{
     ArrayList<String> value;
     String key;
     TextView result;
@@ -21,11 +21,6 @@ public class GetCards extends AsyncTask<Void, Void, Void>{
         key = keyC;
         value = valueC;
         result = resultC;
-    }
-
-    @Override
-    protected void onProgressUpdate(Void... arg0){
-        result.setText(network);
     }
 
     @Override
@@ -43,7 +38,8 @@ public class GetCards extends AsyncTask<Void, Void, Void>{
                 while (jsonReader.hasNext()) {
                     key = jsonReader.nextName();
                     if (key.equals("name")) {
-                        network = value.add(jsonReader.nextString()) + "\n";
+                        network = jsonReader.nextString();
+                        publishProgress(network);
                         break;
                     } else {
                         jsonReader.skipValue();
@@ -60,8 +56,13 @@ public class GetCards extends AsyncTask<Void, Void, Void>{
     }
 
     @Override
+    protected void onProgressUpdate(String... arg0){
+        result.setText(network);
+    }
+
+    @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        result.setText(network);
+
     }
 }
