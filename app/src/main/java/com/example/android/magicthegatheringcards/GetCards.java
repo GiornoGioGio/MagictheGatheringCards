@@ -8,7 +8,6 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.TextView;
 
 public class GetCards extends AsyncTask<Void, String, Void>{
@@ -17,8 +16,7 @@ public class GetCards extends AsyncTask<Void, String, Void>{
     TextView result;
     String network = "";
 
-    protected GetCards(String keyC, ArrayList<String> valueC, TextView resultC){
-        key = keyC;
+    protected GetCards(ArrayList<String> valueC, TextView resultC){
         value = valueC;
         result = resultC;
     }

@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TextView result = findViewById(R.id.textView);
-        GetCards getCards = new GetCards("Sorcery", value, result);
+        GetCards getCards = new GetCards(value, result);
         getCards.execute();
     }
 }
