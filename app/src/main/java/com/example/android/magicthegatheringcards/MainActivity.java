@@ -20,15 +20,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        MyTaskInformer myTaskInformer = new MyTaskInformer() {
+        GetCards getCards = new GetCards(data){
             @Override
-            public void onTaskDone(ArrayList<Card> card) {
-                data = card;
-                //data = getCards.getData();
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
                 recyclerView.setAdapter(myAdapter);
             }
         };
-        GetCards getCards = new GetCards(data,myTaskInformer);
         getCards.execute();
 
 

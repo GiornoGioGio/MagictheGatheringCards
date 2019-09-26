@@ -10,19 +10,18 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 import android.os.AsyncTask;
+import android.util.Log;
 
-public class GetCards extends AsyncTask<ArrayList<Card>, String, ArrayList<Card>> {
+public class GetCards extends AsyncTask<Void, String, Void>{
     private ArrayList<Card> data;
-    private WeakReference<MyTaskInformer> callBack;
     Card card = new Card();
     private String key;
 
-    public GetCards(ArrayList<Card> dataC, MyTaskInformer callbackC){
+    protected GetCards(ArrayList<Card> dataC){
         data = dataC;
-        this.callBack = new WeakReference<>(callbackC);
     }
     @Override
-    protected ArrayList<Card> doInBackground(ArrayList<Card>... arg0) {
+    protected Void doInBackground(Void... arg0) {
         try {
             URL source = new URL("https://api.magicthegathering.io/v1/cards");
             HttpsURLConnection connection = (HttpsURLConnection) source.openConnection();
@@ -60,22 +59,11 @@ public class GetCards extends AsyncTask<ArrayList<Card>, String, ArrayList<Card>
             e.printStackTrace();
         }
 
-        return data;
+        return null;
     }
 
     @Override
     protected void onProgressUpdate(String... values) {
         super.onProgressUpdate(values);
     }
-
-    @Override
-    protected void onPostExecute(ArrayList<Card> c) {
-        super.onPostExecute(c);
-        final MyTaskInformer mCallBack = callBack.get();
-
-        if(callBack != null) {
-            mCallBack.onTaskDone(c);
-        }
-    }
-
 }
