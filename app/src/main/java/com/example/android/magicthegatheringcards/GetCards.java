@@ -8,17 +8,14 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 import android.os.AsyncTask;
-import android.widget.TextView;
 
 public class GetCards extends AsyncTask<Void, String, Void>{
-    ArrayList<String> value;
-    String key;
-    TextView result;
-    String network = "";
+    private ArrayList<Card> data;
+    Card card;
+    private String key;
 
-    protected GetCards(ArrayList<String> valueC, TextView resultC){
-        value = valueC;
-        result = resultC;
+    protected GetCards(ArrayList<Card> namesC){
+        data = namesC;
     }
     @Override
     protected Void doInBackground(Void... arg0) {
@@ -37,16 +34,16 @@ public class GetCards extends AsyncTask<Void, String, Void>{
                 while (jsonReader.hasNext()) {
                     key = jsonReader.nextName();
                     if (key.equals("name")) {
-                        network += jsonReader.nextString() + "      ";
-                    } else if (key.equals("manaCost")){
-                        network += jsonReader.nextString() + "\n";
-                    } else if (key.equals("type")){
-                        network += jsonReader.nextString() + "\n";
-                    } else if (key.equals("text")){
-                        network += jsonReader.nextString() + "\n" + "\n";
+                        card.name = jsonReader.nextString();
+                    //} else if (key.equals("manaCost")){
+                    //    manaCosts.add(jsonReader.nextString());
+                    //} else if (key.equals("type")){
+                    //    network += jsonReader.nextString();
+                    //} else if (key.equals("text")){
+                    //    network += jsonReader.nextString() + "\n" + "\n";
                     } else {
                         jsonReader.skipValue();
-                        publishProgress(network);
+                        data.add(card);
                     }
                 }
                 jsonReader.endObject();
@@ -58,14 +55,7 @@ public class GetCards extends AsyncTask<Void, String, Void>{
         return null;
     }
 
-    @Override
-    protected void onProgressUpdate(String... arg0){
-        result.setText(network);
-    }
-
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-        result.setText(network);
+    public ArrayList<Card> getData() {
+        return data;
     }
 }
