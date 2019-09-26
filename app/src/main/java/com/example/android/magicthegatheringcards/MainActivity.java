@@ -9,19 +9,25 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     ArrayList<Card> data = new ArrayList<>();
+    RecyclerView recyclerView;
+    MyAdapter myAdapter = new MyAdapter(data);
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView recyclerView = findViewById(R.id.cards);
+        recyclerView = findViewById(R.id.cards);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        GetCards getCards = new GetCards(data);
+        GetCards getCards = new GetCards(data,this);
         getCards.execute();
+
         data = getCards.getData();
 
-        recyclerView.setAdapter(new MyAdapter(data));
+    }
+
+    void mainSetAdapter() {
+        recyclerView.setAdapter(myAdapter);
     }
 }

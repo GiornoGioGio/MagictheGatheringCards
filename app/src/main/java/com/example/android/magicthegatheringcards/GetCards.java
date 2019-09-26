@@ -8,14 +8,17 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 import android.os.AsyncTask;
+import android.util.Log;
 
 public class GetCards extends AsyncTask<Void, String, Void>{
     private ArrayList<Card> data;
+    private MainActivity activity;
     Card card = new Card();
     private String key;
 
-    protected GetCards(ArrayList<Card> namesC){
-        data = namesC;
+    protected GetCards(ArrayList<Card> dataC,MainActivity activityC){
+        data = dataC;
+        activity = activityC;
     }
     @Override
     protected Void doInBackground(Void... arg0) {
@@ -46,6 +49,7 @@ public class GetCards extends AsyncTask<Void, String, Void>{
                     } else {
                         jsonReader.skipValue();
                         data.add(card);
+                        publishProgress();
                         card.clear();
                     }
                 }
@@ -56,6 +60,17 @@ public class GetCards extends AsyncTask<Void, String, Void>{
         }
 
         return null;
+    }
+
+    @Override
+    protected void onProgressUpdate(String... values) {
+        super.onProgressUpdate(values);
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        activity.mainSetAdapter();
     }
 
     public ArrayList<Card> getData() {
