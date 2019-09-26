@@ -11,7 +11,7 @@ import android.os.AsyncTask;
 
 public class GetCards extends AsyncTask<Void, String, Void>{
     private ArrayList<Card> data;
-    Card card;
+    Card card = new Card();
     private String key;
 
     protected GetCards(ArrayList<Card> namesC){
