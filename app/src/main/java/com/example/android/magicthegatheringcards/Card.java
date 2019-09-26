@@ -6,12 +6,4 @@ public class Card {
     String imageUrl;
     String type;
     String text;
-
-    public void clear() {
-        name = null;
-        manaCost = null;
-        imageUrl = null;
-        type = null;
-        text = null;
-    }
 }

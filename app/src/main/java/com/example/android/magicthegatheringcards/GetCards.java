@@ -14,7 +14,6 @@ import android.util.Log;
 
 public class GetCards extends AsyncTask<Void, String, Void>{
     private ArrayList<Card> data;
-    Card card = new Card();
     private String key;
 
     protected GetCards(ArrayList<Card> dataC){
@@ -25,6 +24,7 @@ public class GetCards extends AsyncTask<Void, String, Void>{
         try {
             URL source = new URL("https://api.magicthegathering.io/v1/cards");
             HttpsURLConnection connection = (HttpsURLConnection) source.openConnection();
+
             InputStream responseBody = connection.getInputStream();
             InputStreamReader responseBodyReader =
                     new InputStreamReader(responseBody, "UTF-8");
@@ -33,6 +33,7 @@ public class GetCards extends AsyncTask<Void, String, Void>{
             jsonReader.nextName();
             jsonReader.beginArray();
             while (jsonReader.hasNext()) {
+                Card card = new Card();
                 jsonReader.beginObject();
                 while (jsonReader.hasNext()) {
                     key = jsonReader.nextName();
@@ -40,19 +41,17 @@ public class GetCards extends AsyncTask<Void, String, Void>{
                         card.name = jsonReader.nextString();
                     } else if (key.equals("manaCost")){
                         card.manaCost = jsonReader.nextString();
-                    //} else if (key.equals("type")){
-                    //    card.type = jsonReader.nextString();
-                    //} else if (key.equals("text")){
-                    //    card.text = jsonReader.nextString();
-                    //}else if (key.equals("imageUrl")){
-                    //    card.imageUrl = jsonReader.nextString();
+                    } else if (key.equals("type")){
+                        card.type = jsonReader.nextString();
+                    } else if (key.equals("text")){
+                        card.text = jsonReader.nextString();
+                    }else if (key.equals("imageUrl")){
+                        card.imageUrl = jsonReader.nextString();
                     } else {
                         jsonReader.skipValue();
-                        data.add(card);
-                        publishProgress();
-                        card.clear();
                     }
                 }
+                data.add(card);
                 jsonReader.endObject();
             }
         } catch (Exception e) {
@@ -62,8 +61,4 @@ public class GetCards extends AsyncTask<Void, String, Void>{
         return null;
     }
 
-    @Override
-    protected void onProgressUpdate(String... values) {
-        super.onProgressUpdate(values);
-    }
 }

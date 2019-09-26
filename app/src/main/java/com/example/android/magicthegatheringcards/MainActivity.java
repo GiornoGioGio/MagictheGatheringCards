@@ -28,7 +28,5 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         getCards.execute();
-
-
     }
 }
