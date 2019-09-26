@@ -20,14 +20,17 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        GetCards getCards = new GetCards(data,this);
+        MyTaskInformer myTaskInformer = new MyTaskInformer() {
+            @Override
+            public void onTaskDone(ArrayList<Card> card) {
+                data = card;
+                //data = getCards.getData();
+                recyclerView.setAdapter(myAdapter);
+            }
+        };
+        GetCards getCards = new GetCards(data,myTaskInformer);
         getCards.execute();
 
-        data = getCards.getData();
 
-    }
-
-    void mainSetAdapter() {
-        recyclerView.setAdapter(myAdapter);
     }
 }

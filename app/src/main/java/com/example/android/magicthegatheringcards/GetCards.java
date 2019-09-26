@@ -1,6 +1,8 @@
 package com.example.android.magicthegatheringcards;
 
 import android.util.JsonReader;
+
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -8,20 +10,19 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 import android.os.AsyncTask;
-import android.util.Log;
 
-public class GetCards extends AsyncTask<Void, String, Void>{
+public class GetCards extends AsyncTask<ArrayList<Card>, String, ArrayList<Card>> {
     private ArrayList<Card> data;
-    private MainActivity activity;
+    private WeakReference<MyTaskInformer> callBack;
     Card card = new Card();
     private String key;
 
-    protected GetCards(ArrayList<Card> dataC,MainActivity activityC){
+    public GetCards(ArrayList<Card> dataC, MyTaskInformer callbackC){
         data = dataC;
-        activity = activityC;
+        this.callBack = new WeakReference<>(callbackC);
     }
     @Override
-    protected Void doInBackground(Void... arg0) {
+    protected ArrayList<Card> doInBackground(ArrayList<Card>... arg0) {
         try {
             URL source = new URL("https://api.magicthegathering.io/v1/cards");
             HttpsURLConnection connection = (HttpsURLConnection) source.openConnection();
@@ -59,7 +60,7 @@ public class GetCards extends AsyncTask<Void, String, Void>{
             e.printStackTrace();
         }
 
-        return null;
+        return data;
     }
 
     @Override
@@ -68,12 +69,13 @@ public class GetCards extends AsyncTask<Void, String, Void>{
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-        activity.mainSetAdapter();
+    protected void onPostExecute(ArrayList<Card> c) {
+        super.onPostExecute(c);
+        final MyTaskInformer mCallBack = callBack.get();
+
+        if(callBack != null) {
+            mCallBack.onTaskDone(c);
+        }
     }
 
-    public ArrayList<Card> getData() {
-        return data;
-    }
 }
