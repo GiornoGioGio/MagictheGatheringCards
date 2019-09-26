@@ -5,15 +5,13 @@ public class Card {
     String manaCost;
     String imageUrl;
     String type;
-    String subtype;
     String text;
 
-    public Card(String nameC, String manaCostC, String imageUrlC, String typeC, String subtypeC, String textC) {
+    public Card(String nameC, String manaCostC, String imageUrlC, String typeC, String textC) {
         name = nameC;
         manaCost = manaCostC;
         imageUrl = imageUrlC;
         type = typeC;
-        subtype = subtypeC;
         text = textC;
     }
 }
