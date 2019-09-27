@@ -51,6 +51,12 @@ public class GetCards extends AsyncTask<Void, String, Void>{
                         card.text = jsonReader.nextString();
                     } else if (key.equals("imageUrl")) {
                         card.imageUrl = jsonReader.nextString();
+                    } else if (key.equals("power")) {
+                        card.power = jsonReader.nextString();
+                    } else if (key.equals("toughness")) {
+                        card.toughness = jsonReader.nextString();
+                    } else if (key.equals("rarity")) {
+                        card.rarity = jsonReader.nextString();
                     } else {
                         jsonReader.skipValue();
                     }

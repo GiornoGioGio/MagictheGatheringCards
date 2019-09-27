@@ -20,6 +20,8 @@ public class MyAdapter extends RecyclerView.Adapter {
         public TextView mMana;
         public TextView mType;
         public TextView mText;
+        public TextView mTough;
+        public TextView mRarity;
 
         public MyViewHolder(View pItem) {
             super(pItem);
@@ -27,6 +29,8 @@ public class MyAdapter extends RecyclerView.Adapter {
             mMana = pItem.findViewById(R.id.card_mana_cost);
             mType = pItem.findViewById(R.id.card_type);
             mText = pItem.findViewById(R.id.card_text);
+            mTough = pItem.findViewById(R.id.card_toughness);
+            mRarity = pItem.findViewById(R.id.card_rarity);
         }
     }
 
@@ -48,6 +52,11 @@ public class MyAdapter extends RecyclerView.Adapter {
         ((MyViewHolder) viewHolder).mMana.setText(data.get(i).manaCost);
         ((MyViewHolder) viewHolder).mType.setText(data.get(i).type);
         ((MyViewHolder) viewHolder).mText.setText(data.get(i).text);
+        ((MyViewHolder) viewHolder).mRarity.setText(data.get(i).rarity);
+        if(data.get(i).power != null)
+            ((MyViewHolder) viewHolder).mTough.setText(data.get(i).toughness + " / "+ data.get(i).power);
+        else
+            ((MyViewHolder) viewHolder).mTough.setText("");
     }
 
     @Override

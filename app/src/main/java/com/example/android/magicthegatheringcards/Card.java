@@ -6,4 +6,7 @@ public class Card {
     String imageUrl;
     String type;
     String text;
+    String power;
+    String toughness;
+    String rarity;
 }
