@@ -25,6 +25,10 @@ public class GetCards extends AsyncTask<Void, String, Void>{
             URL source = new URL("https://api.magicthegathering.io/v1/cards");
             HttpsURLConnection connection = (HttpsURLConnection) source.openConnection();
 
+            connection.setRequestProperty("Page-Size", "50");
+            connection.setRequestProperty("Count", "50");
+            connection.setRequestProperty("Total-Count", "31090");
+
             InputStream responseBody = connection.getInputStream();
             InputStreamReader responseBodyReader =
                     new InputStreamReader(responseBody, "UTF-8");
@@ -39,13 +43,13 @@ public class GetCards extends AsyncTask<Void, String, Void>{
                     key = jsonReader.nextName();
                     if (key.equals("name")) {
                         card.name = jsonReader.nextString();
-                    } else if (key.equals("manaCost")){
+                    } else if (key.equals("manaCost")) {
                         card.manaCost = jsonReader.nextString();
-                    } else if (key.equals("type")){
+                    } else if (key.equals("type")) {
                         card.type = jsonReader.nextString();
-                    } else if (key.equals("text")){
+                    } else if (key.equals("text")) {
                         card.text = jsonReader.nextString();
-                    }else if (key.equals("imageUrl")){
+                    } else if (key.equals("imageUrl")) {
                         card.imageUrl = jsonReader.nextString();
                     } else {
                         jsonReader.skipValue();
