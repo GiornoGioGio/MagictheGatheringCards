@@ -12,22 +12,21 @@ import javax.net.ssl.HttpsURLConnection;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class GetCards extends AsyncTask<Void, String, Void>{
+public class GetCards extends AsyncTask<Void, Integer, Void>{
     private ArrayList<Card> data;
     private String key;
+    int pageNumber;
 
-    protected GetCards(ArrayList<Card> dataC){
+    protected GetCards(ArrayList<Card> dataC, int pageNumberC){
         data = dataC;
+        pageNumber = pageNumberC;
     }
     @Override
     protected Void doInBackground(Void... arg0) {
+        StringBuilder sb;
         try {
-            URL source = new URL("https://api.magicthegathering.io/v1/cards");
+            URL source = new URL("https://api.magicthegathering.io/v1/cards?&page=" + pageNumber);
             HttpsURLConnection connection = (HttpsURLConnection) source.openConnection();
-
-            connection.setRequestProperty("Page-Size", "50");
-            connection.setRequestProperty("Count", "50");
-            connection.setRequestProperty("Total-Count", "31090");
 
             InputStream responseBody = connection.getInputStream();
             InputStreamReader responseBodyReader =
@@ -45,6 +44,50 @@ public class GetCards extends AsyncTask<Void, String, Void>{
                         card.name = jsonReader.nextString();
                     } else if (key.equals("manaCost")) {
                         card.manaCost = jsonReader.nextString();
+                        //sb = new StringBuilder(card.manaCost);
+                        /*for (int i=0; i<card.manaCost.length(); i+=2){
+                            sb.deleteCharAt(i);
+                        }*/
+                        /*for (int i=0; !card.manaCost.trim().equals(null); i++) {
+                            if (card.manaCost.contains("R")){
+                                manaCostL = card.manaCost.length();
+                                index = card.manaCost.indexOf('R');
+                                properL =manaCostL - index;
+                                card.redManaPos.add(properL);
+                                sb.replace(i,i," ");
+                            }
+                            if (card.manaCost.contains("U")){
+                                manaCostL = card.manaCost.length();
+                                index = card.manaCost.indexOf('U');
+                                properL =manaCostL - index + 1;
+                                card.blueManaPos.add(properL);
+                                sb.replace(i,i," ");
+                            }
+                            if (card.manaCost.contains("G")){
+                                manaCostL = card.manaCost.length();
+                                index = card.manaCost.indexOf('G');
+                                properL =manaCostL - index + 1;
+                                card.greenManaPos.add(properL);
+                                sb.replace(i,i," ");
+                            }
+                            if (card.manaCost.contains("W")){
+                                manaCostL = card.manaCost.length();
+                                index = card.manaCost.indexOf('W');
+                                properL =manaCostL - index + 1;
+                                card.whiteManaPos.add(properL);
+                                sb.replace(i,i," ");
+                            }
+                            if (card.manaCost.contains("B")){
+                                manaCostL = card.manaCost.length();
+                                index = card.manaCost.indexOf('B');
+                                properL =manaCostL - index + 1;
+                                card.blackManaPos.add(properL);
+                                sb.replace(i,i," ");
+                            }
+                            else {
+                                sb.replace(i,i," ");
+                            }
+                        }*/
                     } else if (key.equals("type")) {
                         card.type = jsonReader.nextString();
                     } else if (key.equals("text")) {
@@ -70,5 +113,4 @@ public class GetCards extends AsyncTask<Void, String, Void>{
 
         return null;
     }
-
 }

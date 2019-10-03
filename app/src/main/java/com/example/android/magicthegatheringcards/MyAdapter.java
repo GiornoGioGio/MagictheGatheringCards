@@ -17,20 +17,20 @@ public class MyAdapter extends RecyclerView.Adapter {
 
     private class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView mName;
-        public TextView mMana;
         public TextView mType;
         public TextView mText;
         public TextView mTough;
         public TextView mRarity;
+        public TextView mMana;
 
         public MyViewHolder(View pItem) {
             super(pItem);
             mName = pItem.findViewById(R.id.card_name);
-            mMana = pItem.findViewById(R.id.card_mana_cost);
             mType = pItem.findViewById(R.id.card_type);
             mText = pItem.findViewById(R.id.card_text);
             mTough = pItem.findViewById(R.id.card_toughness);
             mRarity = pItem.findViewById(R.id.card_rarity);
+            mMana = pItem.findViewById(R.id.card_mana);
         }
     }
 

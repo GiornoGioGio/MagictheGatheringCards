@@ -1,5 +1,7 @@
 package com.example.android.magicthegatheringcards;
 
+import java.util.ArrayList;
+
 public class Card {
     String name;
     String manaCost;
@@ -9,4 +11,9 @@ public class Card {
     String power;
     String toughness;
     String rarity;
+    ArrayList<Integer> redManaPos;
+    ArrayList<Integer> blueManaPos;
+    ArrayList<Integer> whiteManaPos;
+    ArrayList<Integer> greenManaPos;
+    ArrayList<Integer> blackManaPos;
 }
